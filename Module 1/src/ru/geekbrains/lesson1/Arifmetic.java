@@ -12,6 +12,7 @@ public class Arifmetic {
         String name = "Андрюша";
 
         float answer = calc(b,in,f,sh); //все переменные преобразуются, так что, думаю, отлично выходит
+        System.out.println(answer);
         System.out.println(isInterval(sh,b));
         nonNegative(in);
         hello(name);
