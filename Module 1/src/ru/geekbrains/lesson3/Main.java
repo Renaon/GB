@@ -18,11 +18,17 @@ public class Main {
         }
         System.out.println("");
         String pl = new Main().yourTurn();
-        if(!pl.equals(com)){
-            tmp = new Main().hint(com,pl);
-            System.out.println(tmp.toString());
+        while(true) {
+            if (!pl.equals(com)) {
+                tmp = new Main().hint(com, pl);
+                for (char key : tmp) System.out.print(key + " ");
+                pl = new Main().yourTurn();
+                System.out.println("\n Попробуй еще \n");
+            } else{
+                System.out.println("Поздравляю, кусок мяса, ты победил");
+                break;
+            }
         }
-        else System.out.println("Поздравляю, кусок мяса, ты победил");
 
     }
 
@@ -52,12 +58,11 @@ public class Main {
         System.out.println("Я покажу тебе буквы, которые есть в слове и даже стоят на своих местах");
 
         int i = 0;
-        for(char key: hope.toCharArray()){
-            int found = com.indexOf(key);
-            if(found!=-1 && found==i){
-                this.guessed[i] = key;
-            }
-            else this.guessed[i] = '#';
+        int arr_size = compare(com, hope);
+        for(int j = 0; j<arr_size; j++){
+            char a = com.charAt(j);
+            if(a == hope.charAt(j)) this.guessed[j] = hope.charAt(j);
+            else this.guessed[j] = '#';
             i++;
         }
 
@@ -65,5 +70,10 @@ public class Main {
             if(this.guessed[i] == 0) this.guessed[i] = '#';
         }
         return this.guessed;
+    }
+
+    private int compare(String com, String hope){
+        if(com.length() > hope.length()) return hope.length();
+        else return com.length();
     }
 }
