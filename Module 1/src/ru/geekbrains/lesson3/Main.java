@@ -8,8 +8,11 @@ public class Main {
             "grape", "melon", "leak", "kiwi", "mango",
             "peanut", "pear", "pepper", "pineapple", "pumpkin", "potato"};
     private char guessed[] = new char[15];
+    private static Main obj = new Main();
 
     public static void main(String[] args){
+
+        obj.guess_init();
         String com = compWish();
         char tmp[] = new char[15];
         System.out.println("Попробуй угадать слово компьютера из длииинного списка: \n");
@@ -17,13 +20,13 @@ public class Main {
             System.out.print(word + " ");
         }
         System.out.println("");
-        String pl = new Main().yourTurn();
+        String pl = obj.yourTurn();
         while(true) {
             if (!pl.equals(com)) {
-                tmp = new Main().hint(com, pl);
+                tmp = obj.hint(com, pl);
                 for (char key : tmp) System.out.print(key + " ");
+                System.out.println("");
                 pl = new Main().yourTurn();
-                System.out.println("\n Попробуй еще \n");
             } else{
                 System.out.println("Поздравляю, кусок мяса, ты победил");
                 break;
@@ -32,8 +35,14 @@ public class Main {
 
     }
 
+    private void guess_init(){
+        for(int i = 0; i<obj.guessed.length; i++){
+            this.guessed[i] = '#';
+        }
+    }
+
     private static String compWish(){
-        int index = (int) Math.random() * words.length + 1;
+        int index = (int) (Math.random() * 16);
         return words[index];
     }
 
@@ -57,19 +66,14 @@ public class Main {
     private char[] hint(String com, String hope){
         System.out.println("Я покажу тебе буквы, которые есть в слове и даже стоят на своих местах");
 
-        int i = 0;
         int arr_size = compare(com, hope);
         for(int j = 0; j<arr_size; j++){
             char a = com.charAt(j);
             if(a == hope.charAt(j)) this.guessed[j] = hope.charAt(j);
-            else this.guessed[j] = '#';
-            i++;
+            else obj.guessed[j] = '#';
         }
-
-        for (int j= i; j< guessed.length; j++){
-            if(this.guessed[i] == 0) this.guessed[i] = '#';
-        }
-        return this.guessed;
+        System.out.println("");
+        return obj.guessed;
     }
 
     private int compare(String com, String hope){
